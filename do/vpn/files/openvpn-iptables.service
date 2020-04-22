@@ -1,0 +1,12 @@
+[Unit]
+Description=iptables rules for OpenVPN
+After=syslog.target network-online.target
+Before=openvpn-server@.service
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/openvpn-iptables.sh
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

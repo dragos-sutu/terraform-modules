@@ -3,7 +3,7 @@ variable "aws_region" {
 }
 
 variable "account_identity" {
-  description = "AWS account details for the Identity account"
+  description = "AWS account details for the identity account"
   type = object({
     email               = string
     name                = string
@@ -11,8 +11,8 @@ variable "account_identity" {
   })
 }
 
-variable "account_dev" {
-  description = "AWS account details for the Dev account"
+variable "account_non_prod" {
+  description = "AWS account details for the non-prod account"
   type = object({
     email               = string
     name                = string

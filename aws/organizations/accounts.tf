@@ -4,8 +4,8 @@ resource "aws_organizations_account" "identity" {
   parent_id = aws_organizations_organizational_unit.sre.id
 }
 
-resource "aws_organizations_account" "dev" {
-  email     = var.account_dev.email
-  name      = var.account_dev.name
+resource "aws_organizations_account" "non_prod" {
+  email     = var.account_non_prod.email
+  name      = var.account_non_prod.name
   parent_id = aws_organizations_organizational_unit.developers.id
 }

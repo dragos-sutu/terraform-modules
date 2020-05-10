@@ -7,12 +7,17 @@ variable "cidr_block" {
   type        = string
 }
 
-variable "vpc_tags" {
-  description = "VPC tags"
-  type        = map(string)
+variable "name" {
+  description = "Name to be used on most resources."
+  type        = string
 }
 
-variable "subnets_tags" {
-  description = "Subnets tags"
+variable "selected_zones" {
+  description = "Availability zones where resources will be created"
+  type        = list(string)
+}
+
+variable "tags" {
+  description = "Tags to be used on most resources"
   type        = map(string)
 }

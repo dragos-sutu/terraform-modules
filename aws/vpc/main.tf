@@ -9,21 +9,19 @@ locals {
   #  ceil(log(6, 2)) + 1 = 4
   newbits     = ceil(log(length(local.zones_names), 2)) + 1
 
-  private_subnets = [for k, zone_name in local.zones_names:
-    {
-      cidr_block: cidrsubnet(var.cidr_block, local.newbits, k * 2),
-      zone_name: zone_name,
-    }
-    if contains(var.selected_zones, zone_name)
-  ]
+  private_subnets = {for k, zone_name in local.zones_names:
+    zone_name => cidrsubnet(var.cidr_block, local.newbits, k * 2)
+    if contains(var.availability_zones, zone_name)
+  }
 
-  public_subnets = [for k, zone_name in local.zones_names:
-    {
-      cidr_block: cidrsubnet(var.cidr_block, local.newbits + 1, (k * 2 + 1) * 2),
-      zone_name: zone_name,
-    }
-    if contains(var.selected_zones, zone_name)
-  ]
+  public_subnets = {for k, zone_name in local.zones_names:
+    zone_name => cidrsubnet(var.cidr_block, local.newbits + 1, (k * 2 + 1) * 2)
+    if contains(var.availability_zones, zone_name)
+  }
+
+  # if NAT is implemented with NAT gateways, put a NAT gateway in each public subnet
+  #  else if NAT instance, use a single EC2 instance in the first subnet
+  nat_gw_subnets = var.nat == "gateway" ? local.public_subnets : {}
 }
 
 data "aws_availability_zones" "zones" {}

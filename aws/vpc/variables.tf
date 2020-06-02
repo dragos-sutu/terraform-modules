@@ -14,7 +14,6 @@ variable "availability_zones" {
 
 variable "cidr_block" {
   description = "CIDR block"
-  type        = string
 
   validation {
     condition     = length(var.cidr_block) != 0
@@ -22,9 +21,12 @@ variable "cidr_block" {
   }
 }
 
+variable "management_cidr" {
+  description = "CIDR block of management IP address(es)"
+}
+
 variable "name" {
   description = "Name to be used on most resources."
-  type        = string
 
   validation {
     condition     = length(var.name) != 0
@@ -34,12 +36,20 @@ variable "name" {
 
 variable "nat" {
   description = "NAT implementation method: gateway or EC2 instance"
-  type        = string
 
   validation {
     condition     = var.nat == "gateway" || var.nat == "instance"
     error_message = "Missing or invalid NAT implementation option."
   }
+}
+
+variable "nat_instance_key_name" {
+  description = "NAT instance SSH key name"
+}
+
+variable "nat_instance_type" {
+  description = "NAT EC2 instance type"
+  default     = "t2.micro"
 }
 
 variable "tags" {

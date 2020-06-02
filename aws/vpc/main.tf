@@ -22,6 +22,8 @@ locals {
   # if NAT is implemented with NAT gateways, put a NAT gateway in each public subnet
   #  else if NAT instance, use a single EC2 instance in the first subnet
   nat_gw_subnets = var.nat == "gateway" ? local.public_subnets : {}
+
+  nat_instance_zone = var.availability_zones[0]
 }
 
 data "aws_availability_zones" "zones" {}

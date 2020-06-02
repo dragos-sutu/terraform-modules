@@ -29,4 +29,3 @@ resource "aws_internet_gateway" "gw" {
     Name = var.name,
   }, var.tags)
 }
-

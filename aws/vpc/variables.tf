@@ -34,17 +34,19 @@ variable "name" {
   }
 }
 
-variable "nat" {
+variable "nat_type" {
   description = "NAT implementation method: gateway or EC2 instance"
+  default     = "GATEWAY"
 
   validation {
-    condition     = var.nat == "gateway" || var.nat == "instance"
+    condition     = var.nat_type == "GATEWAY" || var.nat_type == "INSTANCE"
     error_message = "Missing or invalid NAT implementation option."
   }
 }
 
 variable "nat_instance_key_name" {
   description = "NAT instance SSH key name"
+  default     = ""
 }
 
 variable "nat_instance_type" {

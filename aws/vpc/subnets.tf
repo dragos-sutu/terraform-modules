@@ -6,7 +6,7 @@ resource "aws_subnet" "private" {
   cidr_block        = each.value
 
   tags = merge({
-    Name = "${var.name}.private.${each.value}",
+    Name = "${var.name}.private.${each.key}.subnet",
   }, var.tags)
 }
 
@@ -27,7 +27,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = merge({
-    Name = "${var.name}.public.${each.key}",
+    Name = "${var.name}.public.${each.key}.subnet",
   }, var.tags)
 }
 

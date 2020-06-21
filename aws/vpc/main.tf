@@ -21,7 +21,7 @@ locals {
 
   # if NAT is implemented with NAT gateways, put a NAT gateway in each public subnet
   #  else if NAT instance, use a single EC2 instance in the first subnet
-  nat_gw_subnets = var.nat == "gateway" ? local.public_subnets : {}
+  nat_gw_subnets = var.nat_type == "GATEWAY" ? local.public_subnets : {}
 
   nat_instance_zone = var.availability_zones[0]
 }
@@ -32,6 +32,6 @@ resource "aws_vpc" "vpc" {
   cidr_block = var.cidr_block
 
   tags = merge({
-    Name = var.name,
+    Name = "${var.name}.vpc",
   }, var.tags)
 }

@@ -4,7 +4,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
 
   tags = merge({
-    Name = "${var.name}.private.${each.key}",
+    Name = "${var.name}.private.${each.key}.rt",
   }, var.tags)
 }
 
@@ -12,7 +12,7 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.vpc.id
 
   tags = merge({
-    Name = "${var.name}.public",
+    Name = "${var.name}.public.rt",
   }, var.tags)
 }
 
@@ -26,6 +26,6 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.vpc.id
 
   tags = merge({
-    Name = var.name,
+    Name = "${var.name}.gw",
   }, var.tags)
 }

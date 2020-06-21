@@ -5,13 +5,13 @@ resource "aws_nat_gateway" "gw" {
   subnet_id     = aws_subnet.public[each.key].id
 
   tags = merge({
-    Name = "${var.name}.${each.key}",
+    Name = "${var.name}.${each.key}.nat-gw",
   }, var.tags)
 
   depends_on = [aws_internet_gateway.gw]
 }
 
-resource "aws_route" "private_default" {
+resource "aws_route" "private_default_nat_gw" {
   for_each = local.nat_gw_subnets
 
   route_table_id         = aws_route_table.private[each.key].id
@@ -25,7 +25,7 @@ resource "aws_eip" "nat" {
   vpc = true
 
   tags = merge({
-    Name = "${var.name}.nat.${each.key}",
+    Name = "${var.name}.nat.${each.key}.eip",
   }, var.tags)
 
   depends_on = [aws_internet_gateway.gw]
@@ -76,7 +76,6 @@ resource "aws_security_group" "nat" {
 }
 
 data "aws_ami" "nat" {
-  architecture = "x86_64"
   most_recent  = true
 
   filter {
@@ -98,14 +97,14 @@ resource "aws_instance" "nat" {
   source_dest_check           = false
 
   tags = merge({
-    Name = "${var.name}.nat",
+    Name = "${var.name}.nat.ec2-inst",
   }, var.tags)
 }
 
-resource "aws_route" "private_default" {
+resource "aws_route" "private_default_nat_instance" {
   for_each = local.private_subnets
 
   route_table_id         = aws_route_table.private[each.key].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_instance.nat.id
+  instance_id            = aws_instance.nat.id
 }

@@ -3,7 +3,7 @@ variable "aws_region" {
 }
 
 variable "manager_account_id" {
-  description = "id of the AWS account that will manage current account by assumming role"
+  description = "id of the AWS account that will manage current account by assuming role"
   type        = string
 
   validation {

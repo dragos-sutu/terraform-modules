@@ -35,44 +35,54 @@ resource "aws_security_group" "nat" {
   name   = "${var.name}.nat.sg"
   vpc_id = aws_vpc.vpc.id
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [aws_vpc.vpc.cidr_block]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [aws_vpc.vpc.cidr_block]
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.management_cidr]
-  }
-
-  egress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags = merge({
     Name = "${var.name}.nat.sg",
   }, var.tags)
+}
+
+resource "aws_security_group_rule" "ingress_80" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = [aws_vpc.vpc.cidr_block]
+  security_group_id = aws_security_group.nat.id
+}
+
+resource "aws_security_group_rule" "ingress_443" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = [aws_vpc.vpc.cidr_block]
+  security_group_id = aws_security_group.nat.id
+}
+
+resource "aws_security_group_rule" "ingress_22" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = [var.management_cidr]
+  security_group_id = aws_security_group.nat.id
+}
+
+resource "aws_security_group_rule" "egress_80" {
+  type              = "egress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.nat.id
+}
+
+resource "aws_security_group_rule" "egress_443" {
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.nat.id
 }
 
 data "aws_ami" "nat" {
@@ -102,7 +112,7 @@ resource "aws_instance" "nat" {
 }
 
 resource "aws_route" "private_default_nat_instance" {
-  for_each = local.private_subnets
+  for_each = local.subnets_private
 
   route_table_id         = aws_route_table.private[each.key].id
   destination_cidr_block = "0.0.0.0/0"

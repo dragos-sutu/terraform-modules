@@ -1,7 +1,7 @@
-output "private_subnets" {
-  value = local.private_subnets
+output "subnets_private" {
+  value = local.subnets_private
 }
 
-output "public_subnets" {
-  value = local.public_subnets
+output "subnets_public" {
+  value = local.subnets_public
 }

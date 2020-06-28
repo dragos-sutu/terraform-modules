@@ -1,5 +1,5 @@
 resource "aws_subnet" "private" {
-  for_each = local.private_subnets
+  for_each = local.subnets_private
 
   vpc_id            = aws_vpc.vpc.id
   availability_zone = each.key
@@ -11,7 +11,7 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  for_each = local.private_subnets
+  for_each = local.subnets_private
 
   subnet_id      = aws_subnet.private[each.key].id
   route_table_id = aws_route_table.private[each.key].id
@@ -19,7 +19,7 @@ resource "aws_route_table_association" "private" {
 
 
 resource "aws_subnet" "public" {
-  for_each = local.public_subnets
+  for_each = local.subnets_public
 
   vpc_id                  = aws_vpc.vpc.id
   availability_zone       = each.key
@@ -32,7 +32,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_route_table_association" "public" {
-  for_each = local.public_subnets
+  for_each = local.subnets_public
 
   subnet_id      = aws_subnet.public[each.key].id
   route_table_id = aws_route_table.public.id

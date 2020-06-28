@@ -1,5 +1,5 @@
 resource "aws_route_table" "private" {
-  for_each = local.public_subnets
+  for_each = local.subnets_public
 
   vpc_id = aws_vpc.vpc.id
 

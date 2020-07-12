@@ -12,8 +12,15 @@ resource "aws_iam_policy" "policy" {
 
   description = each.value.description
   name        = each.value.name
-  policy      = templatefile(
-    "${path.module}/policies/${each.value.template_name}.tmpl",
-    each.value.template_variables
-  )
+  policy      = data.aws_iam_policy_document.policy[each.key].json
+}
+
+data "aws_iam_policy_document" "policy" {
+  for_each = local.policies
+
+  statement {
+    actions   = ["sts:AssumeRole"]
+    effect    = "Allow"
+    resources = each.value.resources
+  }
 }

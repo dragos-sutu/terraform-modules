@@ -14,12 +14,11 @@ variable "groups" {
 
 variable "policies" {
   default     = []
-  description = "Policies to be created, template_name and template_variables must match a template file in the module"
+  description = "Policies to be created, only sts:AssumeRole is used as action"
   type        = list(object({
     description: string,
     name: string,
-    template_name: string,
-    template_variables: map(any),
+    resources: list(string),
   }))
 }
 

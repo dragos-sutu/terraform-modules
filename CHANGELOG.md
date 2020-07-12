@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.7.0 2020-07-12
+
+Change IAM module to use `aws_iam_policy_document` instead of `templatefile` with files.
+Add feature to configure IAM roles, trusted entities can only be AWS accounts for now.
+
 ## v0.6.0 2020-07-12
 
 Added IAM stateless module. 

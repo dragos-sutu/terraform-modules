@@ -19,7 +19,7 @@ variable "policies" {
     description: string,
     name: string,
     template_name: string,
-    template_variables: map(string),
+    template_variables: map(any),
   }))
 }
 

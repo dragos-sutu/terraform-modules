@@ -13,7 +13,7 @@ resource "aws_iam_policy" "policy" {
   description = each.value.description
   name        = each.value.name
   policy      = templatefile(
-    "${path.module}/files/policy-${each.value.template_name}.tmpl",
+    "${path.module}/policies/${each.value.template_name}.tmpl",
     each.value.template_variables
   )
 }

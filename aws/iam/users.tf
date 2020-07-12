@@ -35,6 +35,7 @@ resource "aws_iam_user_group_membership" "membership" {
   user   = each.value.name
 
   depends_on = [
-    aws_iam_group.group
+    aws_iam_group.group,
+    aws_iam_user.user,
   ]
 }

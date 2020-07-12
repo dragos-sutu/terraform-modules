@@ -31,6 +31,10 @@ resource "aws_iam_user_login_profile" "profile" {
 resource "aws_iam_user_group_membership" "membership" {
   for_each = local.users
 
-  groups = [ for g in each.value.groups_names: aws_iam_group.group[g].name ]
+  groups = each.value.groups_names
   user   = each.value.name
+
+  depends_on = [
+    aws_iam_group.group
+  ]
 }

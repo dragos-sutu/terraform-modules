@@ -6,9 +6,9 @@ variable "groups" {
   default     = []
   description = "Groups to be created. policies_aws_managed_arns must contain valid AWS managed policies ARNs. policies_customer_managed_names must contain valid customer managed policies name, that can be created with var.policies"
   type        = list(object({
+    name: string,
     policies_aws_managed_arns: list(string),
     policies_customer_managed_names: list(string),
-    name: string,
   }))
 }
 
@@ -20,6 +20,16 @@ variable "policies" {
     name: string,
     template_name: string,
     template_variables: map(any),
+  }))
+}
+
+variable "roles" {
+  default     = []
+  description = "Roles to be created, supports only AWS accounts as trusted entities"
+  type        = list(object({
+    name: string,
+    policies_aws_managed_arns: list(string),
+    trusted_account: string,
   }))
 }
 

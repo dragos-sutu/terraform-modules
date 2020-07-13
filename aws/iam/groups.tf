@@ -16,7 +16,7 @@ locals {
   ])
 
   groups_aws_managed_policies = { for group in local.tmp_groups_aws_managed_policies:
-    group.group_name => group
+    group.policy_arn => group
   }
 
   tmp_groups_customer_managed_policies = flatten([ for group in var.groups:
@@ -29,7 +29,7 @@ locals {
   ])
 
   groups_customer_managed_policies = { for group in local.tmp_groups_customer_managed_policies:
-    group.group_name => group
+    group.policy_name => group
   }
 }
 
@@ -42,13 +42,13 @@ resource "aws_iam_group" "group" {
 resource "aws_iam_group_policy_attachment" "aws_managed" {
   for_each = local.groups_aws_managed_policies
 
-  group      = aws_iam_group.group[each.key].name
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  group      = aws_iam_group.group[each.value.group_name].name
+  policy_arn = each.value.policy_arn
 }
 
 resource "aws_iam_group_policy_attachment" "customer_managed" {
   for_each = local.groups_customer_managed_policies
 
-  group      = aws_iam_group.group[each.key].name
+  group      = aws_iam_group.group[each.value.group_name].name
   policy_arn = aws_iam_policy.policy[each.value.policy_name].arn
 }

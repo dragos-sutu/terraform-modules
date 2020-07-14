@@ -1,7 +1,7 @@
 locals {
   // transform list to map in order to use for_each instead of count
-  //  so that terraform state maps get indexed by strings instead of integers,
-  //  makes it more readable and debuggable
+  //  so that we can reference users by name from other resources
+  //  and maps get indexed by strings instead of integers, which makes it more readable and debuggable
   users = { for user in var.users:
     user.name => user
   }

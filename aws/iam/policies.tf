@@ -1,8 +1,8 @@
 locals {
   // transform list to map in order to use for_each instead of count
-  //  so that terraform state maps get indexed by strings instead of integers,
-  //  makes it more readable and debuggable
-  policies = {for policy in var.policies:
+  //  so that we can reference policies by name from other resources
+  //  and maps get indexed by strings instead of integers, which makes it more readable and debuggable
+  policies = { for policy in var.policies:
     policy.name => policy
   }
 }

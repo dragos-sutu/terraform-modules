@@ -1,22 +1,22 @@
 locals {
   // transform list to map in order to use for_each instead of count
-  //  so that terraform state maps get indexed by strings instead of integers,
-  //  makes it more readable and debuggable
+  //  so that we can reference roles by name from other resources
+  //  and maps get indexed by strings instead of integers, which makes it more readable and debuggable
   roles = {for role in var.roles:
     role.name => role
   }
 
-  tmp_roles_aws_managed_policies = flatten([for role in var.roles:
-    [for policy_arn in role.policies_aws_managed_arns:
+  tmp_roles_aws_managed_policies = flatten([ for role in var.roles:
+    [for policy_name in role.policies_names_aws_managed:
       {
         role_name: role.name,
-        policy_arn: policy_arn,
+        policy_name: policy_name,
       }
-    ] if length(role.policies_aws_managed_arns) > 0
+    ] if length(role.policies_names_aws_managed) > 0
   ])
 
-  roles_aws_managed_policies = {for role in local.tmp_roles_aws_managed_policies:
-    role.role_name => role
+  roles_aws_managed_policies = { for role in local.tmp_roles_aws_managed_policies:
+    "${role.role_name}_${role.policy_name}" => role
   }
 }
 
@@ -44,6 +44,6 @@ data "aws_iam_policy_document" "role" {
 resource "aws_iam_role_policy_attachment" "aws_managed" {
   for_each = local.roles_aws_managed_policies
 
-  role       = aws_iam_role.role[each.key].name
-  policy_arn = each.value.policy_arn
+  role       = aws_iam_role.role[each.value.role_name].name
+  policy_arn = "arn:aws:iam::aws:policy/${each.value.policy_name}"
 }

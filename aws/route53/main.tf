@@ -1,10 +1,11 @@
-resource "aws_route53_zone" "zone" {
+resource "aws_route53_zone" "zones" {
   for_each = var.zones
 
   name = each.value
 
   tags = var.tags
 }
+
 
 data "aws_route53_zone" "zone" {
   count = length(var.alias_records)

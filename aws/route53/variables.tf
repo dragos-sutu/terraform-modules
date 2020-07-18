@@ -17,12 +17,6 @@ variable "alias_records" {
   }))
 }
 
-variable "zones" {
-  default     = []
-  description = "A set of objects, for each one an aws_route53_records alias will be created"
-  type        = set(string)
-}
-
 variable "tags" {
   description = "Tags to be used on most resources"
   type        = map(string)

@@ -1,5 +1,38 @@
 # Changelog
 
+## v0.15.0 2020-08-09
+
+- Add AWS SES, Lambda and Cognito modules
+- Add Route53 module feature to create non-alias records also 
+
+## v0.14.0 2020-07-18
+
+Add db subnet group to VPC module
+
+## v0.13.0 2020-07-18
+
+Add ECR module
+
+## v0.12.0 2020-07-18
+
+Add ELB module
+
+## v0.11.0 2020-07-18
+
+Add zone id as output to route53-zone module
+
+## v0.10.0 2020-07-18
+
+Add hosted zone name output to route53-zone module
+
+## v0.9.0 2020-07-18
+
+Move route53 zone to separate route53 module
+
+## v0.8.0 2020-07-18
+
+Change route53-zone module to output only zone name and name servers
+
 ## v0.7.0 2020-07-12
 
 Change IAM module to use `aws_iam_policy_document` instead of `templatefile` with files.

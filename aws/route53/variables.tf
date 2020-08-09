@@ -4,7 +4,7 @@ variable "aws_region" {
 
 variable "alias_records" {
   default     = []
-  description = "A set of objects, for each one an aws_route53_records alias will be created"
+  description = "A list of objects, for each one an aws_route53_records alias will be created"
 
   type = list(object({
     alias: object({
@@ -14,6 +14,19 @@ variable "alias_records" {
     name: string,
     type: string,
     zone_name: string,
+  }))
+}
+
+variable "records" {
+  default     = []
+  description = "A list of objects, for each one an aws_route53_record will be created"
+
+  type = list(object({
+    name: string,
+    records: list(string),
+    ttl: string
+    type: string,
+    zone_id: string,
   }))
 }
 

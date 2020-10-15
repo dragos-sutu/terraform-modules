@@ -22,8 +22,12 @@ variable "from_email_address_arn" {
   description = "The ARN of the SES verified email identity to use"
 }
 
-variable "lambda_trigger_custom_message_arn" {
+variable "custom_message_lambda_arn" {
   description = "ARN of the Lambda Function that is executed before email verification or MFA message is sent"
+}
+
+variable "custom_message_lambda_name" {
+  description = "Name of the Lambda Function that is executed before email verification or MFA message is sent"
 }
 
 variable "reply_to_email_address" {

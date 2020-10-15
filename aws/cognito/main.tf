@@ -17,7 +17,7 @@ resource "aws_cognito_user_pool" "pool" {
   }
 
   lambda_config {
-    custom_message = var.lambda_trigger_custom_message_arn
+    custom_message = var.custom_message_lambda_arn
   }
 
   name = var.user_pool_name
@@ -61,4 +61,12 @@ resource "aws_cognito_user_pool_client" "clients" {
   refresh_token_validity       = each.value.refresh_token_validity
   supported_identity_providers = ["COGNITO"]
   user_pool_id                 = aws_cognito_user_pool.pool.id
+}
+
+resource "aws_lambda_permission" "allow_cognito" {
+  statement_id  = "AllowInvokeFromCognito"
+  action        = "lambda:InvokeFunction"
+  function_name =  var.custom_message_lambda_name
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.pool.arn
 }

@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.19.0 - 2020-10-15
+
+- Update `acm` module to work without Cloudfront certificates also
+
+## v0.18.0 - 2020-10-14
+
+- Remove ECS cluster creation from `ecs` module
+- Add option to create Security Group ingress rule based with soruce Security Group Id or CIDR blocks
+- Create ECS Service log group to set be able to set log group's retention policy  
+
+## v0.17.0 - 2020-10-14
+
+- Add module for creating and ECS cluster
+
 ## v0.16.0 - 2020-09-24
 
 - Remove pre-0.13 experimental variable_validation from all modules. It's not experimental anymore in terraform 0.13 

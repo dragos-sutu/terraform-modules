@@ -20,7 +20,7 @@ variable "route53_zone_id" {
 
 variable "subnets_ids" {
   description = "Ids of the subnets that the ELB will be associated with"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "tags" {
@@ -35,7 +35,8 @@ variable "tags" {
 
 variable "target_groups" {
   description = "Target groups that will be created and associated with the ELB"
-  type = list(object({
+  type        = list(object({
+    healthcheck_path: string,
     name: string,
     port: string,
     protocol: string,

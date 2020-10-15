@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.21.0 - 2020-10-15
+
+- Change `lambda` module: 
+    - use predefined AWS IAM policy for Cloudwatch logging permissions
+    - create Cloudwatch Log Group to be able to set it's retention policy
+    - add function name to outputs
+- Change `cognito` module:
+    - add lambda permission resource to update the custom message trigger lamda resource policy
+    - add clients ids and user pool id outputs
+- Change `elb` module:
+    - Add option to configure healthcheck path on each Target Group using `target_groups.healthcheck_path`
+    - update output name `target_groups_arns`
+
 ## v0.20.0 - 2020-10-15
 
 - Change `ecr` module to create a single repository instead of multiple, it takes a single repository name now instead of a list

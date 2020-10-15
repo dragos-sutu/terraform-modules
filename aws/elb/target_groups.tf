@@ -7,9 +7,15 @@ locals {
 resource "aws_lb_target_group" "target_groups" {
   for_each = local.target_groups
 
+  health_check {
+    enabled = true
+    matcher = "200"
+    path    = each.value.healthcheck_path
+  }
+
   name        = each.value.name
-  port        = 80
-  protocol    = "HTTP"
+  port        = each.value.port
+  protocol    = each.value.protocol
   target_type = "ip"
   vpc_id      = var.vpc_id
 

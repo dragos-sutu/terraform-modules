@@ -28,19 +28,12 @@ data "aws_iam_policy_document" "lambda_assume_role" {
   }
 }
 
-resource "aws_iam_role_policy" "lambda_cloudwatch" {
-  name   = "lambda-cloudwatch-write-${var.function_name}"
-  role   = aws_iam_role.lambda.id
-  policy = data.aws_iam_policy_document.lambda_cloudwatch.json
+resource "aws_iam_role_policy_attachment" "lambda_cloudwatch" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  role       = aws_iam_role.lambda.id
 }
 
-data "aws_iam_policy_document" "lambda_cloudwatch" {
-  statement {
-    actions   = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents",
-    ]
-    resources = ["arn:aws:logs:*:*:*"]
-  }
+resource "aws_cloudwatch_log_group" "log_group" {
+  name              = "/aws/lambda/${aws_lambda_function.lambda.function_name}"
+  retention_in_days = 30
 }

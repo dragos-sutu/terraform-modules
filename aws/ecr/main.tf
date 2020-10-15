@@ -1,7 +1,5 @@
-resource "aws_ecr_repository" "repositories" {
-  for_each = var.repositories_names
-
-  name                 = each.value
+resource "aws_ecr_repository" "repository" {
+  name                 = var.repository_name
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

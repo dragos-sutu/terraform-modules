@@ -2,9 +2,8 @@ variable "aws_region" {
   description = "AWS region for provider"
 }
 
-variable "repositories_names" {
-  description = "Set of ECR Repositories names, one per image"
-  type        = set(string)
+variable "repository_name" {
+  description = "ECR Repository name"
 }
 
 variable "tags" {

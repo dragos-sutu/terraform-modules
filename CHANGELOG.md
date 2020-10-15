@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.20.0 - 2020-10-15
+
+- Change `ecr` module to create a single repository instead of multiple, it takes a single repository name now instead of a list
+
 ## v0.19.0 - 2020-10-15
 
 - Update `acm` module to work without Cloudfront certificates also

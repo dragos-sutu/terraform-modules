@@ -2,6 +2,11 @@ variable "aws_region" {
   description = "AWS region for provider"
 }
 
+variable "enable_deletion_protection" {
+  default     = true
+  description = "If true, deletion of the load balancer will be disabled via the AWS API"
+}
+
 variable "listener_certificate_arn" {
   description = "ARN of the certificate that will be attached on the listener"
 }

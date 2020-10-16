@@ -1,5 +1,5 @@
 resource "aws_lb" "alb" {
-  enable_deletion_protection = true
+  enable_deletion_protection = var.enable_deletion_protection
   internal                   = false
   load_balancer_type         = "application"
   name_prefix                = var.name

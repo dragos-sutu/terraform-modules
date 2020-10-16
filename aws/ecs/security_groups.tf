@@ -8,7 +8,7 @@ resource "aws_security_group" "service" {
 }
 
 resource "aws_security_group_rule" "ingress_cidr" {
-  count = var.service.ingress_source.cidr_blocks ? 1 : 0
+  count = length(var.service.ingress_source.cidr_blocks) > 0 ? 1 : 0
 
   type              = "ingress"
   from_port         = var.service.ingress_source.port
@@ -19,7 +19,7 @@ resource "aws_security_group_rule" "ingress_cidr" {
 }
 
 resource "aws_security_group_rule" "ingress_sg" {
-  count = var.service.ingress_source.security_group_id ? 1 : 0
+  count = trimspace(var.service.ingress_source.security_group_id) != "" ? 1 : 0
 
   type                     = "ingress"
   from_port                = var.service.ingress_source.port
